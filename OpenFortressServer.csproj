@@ -53,6 +53,7 @@
     <Compile Include="Scripts\Lobby.cs" />
     <Compile Include="Scripts\Main.cs" />
     <Compile Include="Scripts\Network.cs" />
+    <Compile Include="Scripts\OpenFortress.cs" />
     <Compile Include="Scripts\Player.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

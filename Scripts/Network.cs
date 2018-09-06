@@ -25,36 +25,29 @@ public class Network : Node
             object[] packet = null;
             // send data to each client
             // we may want to just send all game data to all clients to reduce complexity in early days
+
             foreach (int clientID in ConnectedClients)
             {
                 // for each client, send them update of every other client
-                if (ConnectedClients.Count > 1)
+                foreach (int otherClientID in ConnectedClients)
                 {
-                    foreach (int otherClientID in ConnectedClients)
+                    if (clientID != otherClientID)
                     {
-                        if (clientID != otherClientID)
-                        {
-                            packet = GetPacket(clientID, otherClientID);
-
-                            if (packet != null)
-                            {
-                                RpcUnreliableId(clientID, "ReceivePacket", packet);
-                            }
-                        }
+                        packet = GetPacket(clientID, otherClientID);
+                        RpcUnreliableId(clientID, "ReceivePacket", packet);
                     }
-                }
-                else
-                {
-                    // send acknowledgement packet so single player doesn't keep huge history
-                    packet = GetPacket(clientID, 0);
-                    if (packet != null)
+                    else if (ConnectedClients.Count == 1)
                     {
+                        packet = GetPacket(clientID, 0);
                         RpcUnreliableId(clientID, "ReceivePacket", packet);
                     }
                 }
             }
         }
+        // restrict server to 50 fps to limit packets
+        System.Threading.Thread.Sleep(20);
     }
+    
 
     private object[] GetPacket(int clientID, int otherClientID)
     {
@@ -92,9 +85,6 @@ public class Network : Node
             if (!main.HasNode(clientID.ToString()))
             {
                 main.AddPlayer(false, clientID);
-
-                // propagate to all clients
-                throw new NotImplementedException();
             }
 
             if (trans != lastPacket.Translation)

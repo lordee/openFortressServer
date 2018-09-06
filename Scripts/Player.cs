@@ -9,20 +9,6 @@ struct Cmd
     public float move_up;
 }
 
-class DiseasedData
-{
-    public Player Attacker;
-    public float TimeSinceDiseased;
-    public Weapon Inflictor;
-
-    public DiseasedData(Player attacker, Weapon inflictor, float timeSinceDiseased)
-    {
-        Attacker = attacker;
-        TimeSinceDiseased = timeSinceDiseased;
-        Inflictor = inflictor;
-    }
-}
-
 public class Player : KinematicBody
 {
     float mouseSensitivity = 0.2f;
@@ -55,7 +41,6 @@ public class Player : KinematicBody
         }
     }
 
-    private List<DiseasedData> _diseasedBy = new List<DiseasedData>();
     private float _diseasedInterval = 0f;
 
     // physics
@@ -124,23 +109,4 @@ public class Player : KinematicBody
     {
 
     }
-
-
-    public void Spawn(Vector3 loc)
-    {
-        this.SetTranslation(loc);
-        // do other stuff around being dead etc 
-        
-        GD.Print(this.Class.ToString());
-        this.CurrentHealth = this.Class.Health;
-        this.CurrentArmour = this.Class.Armour / 2;
-        this._currentShells = Math.Abs(this.Class.MaxShells / 2);
-        this._currentNails = Math.Abs(this.Class.MaxNails / 2);
-        this._currentRockets = Math.Abs(this.Class.MaxRockets / 2);
-        this._currentCells = Math.Abs(this.Class.MaxCells / 2);
-        this._currentGren1 = Math.Abs(this.Class.MaxGren1 / 2);
-        this._currentGren2 = Math.Abs(this.Class.MaxGren2 / 2);
-    }
-
-
 }
