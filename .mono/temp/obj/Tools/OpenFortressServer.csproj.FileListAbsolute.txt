@@ -1,0 +1,2 @@
+/home/danni/Code/Godot Projects/OpenFortressServer/.mono/temp/obj/Tools/OpenFortressServer.csprojResolveAssemblyReference.cache
+/home/danni/Code/Godot Projects/OpenFortressServer/.mono/temp/obj/Tools/OpenFortressServer.csproj.CoreCompileInputs.cache
