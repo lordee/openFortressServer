@@ -38,6 +38,7 @@ public class Network : Node
                     }
                     else if (ConnectedClients.Count == 1)
                     {
+                        //GD.Print("sending ack");
                         packet = GetPacket(clientID, 0);
                         RpcUnreliableId(clientID, "ReceivePacket", packet);
                     }
@@ -71,6 +72,12 @@ public class Network : Node
         ConnectedClients.Add(id);
         SnapShot ss = new SnapShot(0, id, new Vector3());
         ClientSnapShots.Add(ss);
+
+        Main main = (Main)GetNode("/root/OpenFortress/Main");
+        if (!main.HasNode(id.ToString()))
+        {
+            main.AddPlayer(false, id);
+        }
     }
 
     [Remote]
@@ -80,13 +87,6 @@ public class Network : Node
         SnapShot lastPacket = ClientSnapShots.FindLast(ss => ss.ClientID == clientID);
         if (packetNum > lastPacket.PacketNumber)
         {
-            // find player, if not exist create at translation
-            Main main = (Main)GetNode("/root/OpenFortress/Main");
-            if (!main.HasNode(clientID.ToString()))
-            {
-                main.AddPlayer(false, clientID);
-            }
-
             if (trans != lastPacket.Translation)
             {
                 MovePlayer(clientID, trans);                   
